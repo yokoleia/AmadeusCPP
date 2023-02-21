@@ -16,7 +16,6 @@ void PrintVector(vector<Plant*> myGarden) {
     }
 }
 
-
 int main()
 {
     // TODO: Declare a vector called myGarden that can hold object of type plant pointer
