@@ -1,7 +1,8 @@
 #include <iostream>
 #include <iomanip>
 #include <cmath>
-
+#include "SavingsAccount.h"
+#include "FixedAccount.h"
 #include "Bank.h"
 #include "Customer.h"
 #include <string>
@@ -35,13 +36,16 @@ void Bank::CustomerRegistration()
     // TAKE INPUT
     ui.InputCustomerRegistration(CustomerName, DOB, Age, Mobile, PassportNumber);
     Customer *myCustomer = new Customer(CustomerName, DOB, Age, Mobile, PassportNumber);
+    
 
+    //cout << "Customers Size Before: " << Customers.size();
     Customers.emplace(myCustomer->getCustomerID(), myCustomer);
+    // << "Customers Size After: " << Customers.size();
 
-    /* test code
+    //test code
     cout << "test map" << endl;
-    long testCID = myCustomer->getCustomerID();
-    cout << Customers.count(testCID);*/
+    int testCID = myCustomer->getCustomerID();
+    cout << Customers.count(testCID) << " Accounts belonging to CID: " << testCID << endl;
 }
 void Bank::OpenBankAccount() {
     /*Account Number : long
@@ -50,27 +54,22 @@ void Bank::OpenBankAccount() {
     Balance : double
     Opening Date : String DD/MM/YYYY 
     */
-    long AccountNumber;
-    double Balance;
-    string OpeningDate;
-
-    ui.InputOpenBankAccount(AccountNumber, Balance, OpeningDate);
     
-    if (Customers.count(AccountNumber) < 1) {
+    int CustomerID;
+    ui.InputRequestCustomerNumber(CustomerID);
+        
+    if (Customers.count(CustomerID) != 1)
+    {
+        cout << "CustomerID: " << CustomerID << endl;
+        
         throw runtime_error("No Account Matching Account Number! Please create a user account first. ");
-    } else if (Customers.count(AccountNumber) > 1) {
+    } else if (Customers.at(CustomerID)->getBankAccount() != nullptr)
+    {
         throw runtime_error("You already have a Bank Account. You cannot have more than one!");
     }
+    BankAccount *userBankAccount;
+    ui.InputOpenBankAccount(userBankAccount, this->BSBCode, this->BankName);
 
-    BankAccount *userBankAccount = new BankAccount(this->BSBCode, AccountNumber, this->BankName, Balance, OpeningDate);
+    Customers.at(CustomerID)->setBankAccount(userBankAccount);
 
-    Customers.at(AccountNumber)->setBankAccount(userBankAccount);
-
-    /*if (Customers.count(AccountNumber) > 0) {
-        BankAccounts.emplace(AccountNumber, userBankAccount);
-    }
-    if (BankAccounts.count(AccountNumber) == 1)
-    {
-        cout << "Account Matching AccountNumber: " << AccountNumber << endl;
-    }*/
 }

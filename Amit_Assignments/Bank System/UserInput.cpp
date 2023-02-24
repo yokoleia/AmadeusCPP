@@ -1,4 +1,6 @@
 #include "UserInput.h"
+#include "SavingsAccount.h"
+#include "FixedAccount.h"
 #include <iostream>
 #include <iomanip>
 #include <cmath>
@@ -10,29 +12,23 @@ void UserInput::InputCustomerRegistration(string &CustomerName, string& DOB, int
 {
     string tempFirstName;
     string tempLastName;
-    int tempAge;
-    int tempMobile;
-    string tempPassportNumber;
-    string tempDOB;
 
     cout << "Thank you for creating an Account with us. " << endl;
     cout << "Enter the following Details: " << endl;
     cout << "First Name: ";
-    cin >> tempFirstName;
+    tempFirstName = RequestAlphaString();
     cout << "Last Name: ";
-    cin >> tempLastName;
-    if (!StringIsAlpha(tempFirstName) || !StringIsAlpha(tempLastName))
-    {
-        throw runtime_error("There seems to be a spelling error. Try Again");
-    }
+    tempLastName = RequestAlphaString();
     cout << "Thank you: " << tempFirstName << " " << tempLastName << endl;
+    CustomerName = tempFirstName + " " + tempLastName;
 
 
     cout << "Date of Birth (DD/MM/YYYY): ";
-    tempDOB = RequestDate();
-    tempAge = 2022 - stoi(tempDOB.substr(tempDOB.size() - 4, 4));
-    cout << "age" << tempAge << endl;
-    if (tempAge < 10)
+    DOB = RequestDate();
+
+    Age = (2022 - stoi(DOB.substr(DOB.size() - 4, 4)));
+    cout << "That makes you " << Age << " years old. " << endl;
+    if (Age < 10)
     {
         throw runtime_error("Need to be 10 to open a Bank Account.");
     }
@@ -40,81 +36,125 @@ void UserInput::InputCustomerRegistration(string &CustomerName, string& DOB, int
     //
     Mobile = RequestNum<int>(99999999);
 
-    cout << "Passport Number: ";
-    cin >> PassportNumber;
-
-    CustomerName = tempFirstName + " " + tempLastName;
-    Age = tempAge;
-    Mobile = tempMobile;
-    PassportNumber = tempPassportNumber;
-    DOB = tempDOB;
+    cout << "Passport Number (No Spaces):";
+    PassportNumber = RequestAlphaNumericString();
 }
 
-void UserInput::InputOpenBankAccount(long &AccountNumber, double &Balance, string &OpeningDate)
-{
-    long tempAccountNumber;
-    double tempBalance;
-    string tempOpeningDate;
-    // FIXME: Use this later to check account by name instead of cid
-    // cout << "Input User Full Name etc. -> Firstname Lastname: ";
-    cout << "What is your Account Number" << endl;
-    tempAccountNumber = RequestNum<long>(100);
-    cout << "Input Opening Balance:"; // << endl;2
-    cin >> tempBalance;
-    if (tempBalance < 0)
+void UserInput::InputRequestCustomerNumber(int& CustomerID) {
+    cout << "What is your Customer Number: ";
+    CustomerID = RequestNum<long>(100);
+    cout << "Customer number: " << CustomerID << endl;
+}
+
+
+void UserInput::InputOpenBankAccount(BankAccount *BankAccount, long& BSB, string& BankName) {
+    bool isSavings; // 
+    double Balance;
+    string OpeningDate;
+
+    cout << "Input Opening Balance: "; // << endl;2
+    Balance = RequestNum<double>();
+    if (Balance < 0)
     {
         throw runtime_error("Can't open a bank account with a negative Balance.");
     }
 
     cout << "Enter Date (DD/MM/YYYY): "; // << endl;
-    tempOpeningDate = RequestDate();
-    
+    OpeningDate = RequestDate();
 
-    AccountNumber = tempAccountNumber;
-    Balance = tempBalance;
-    OpeningDate = tempOpeningDate;
+    cout << "Account Type(0=Fixed,1=Savings): ";
+    isSavings = RequestNum<bool>();
+
+    
+    if (isSavings) {
+
+        //BankAccount *InputOpenSavingsAccount(string & BankName, long &BSB, long &AccountNumber, double &Balance, string &OpeningDate);
+        BankAccount = InputOpenSavingsAccount(BankName, BSB, Balance, OpeningDate);
+    } else {
+        BankAccount = InputOpenFixedAccount(BankName, BSB, Balance, OpeningDate);
+    }
+   
+}
+
+BankAccount *UserInput::InputOpenSavingsAccount(string& BankName, long& BSB, double &Balance, string &OpeningDate)
+{
+    bool isSalaryAccount;
+    cout << "Is this a Salary Account: 0=No, 1=Yes: ";
+    isSalaryAccount = RequestNum<bool>();
+
+    return new SavingsAccount(BSB, BankName, Balance, OpeningDate, isSalaryAccount);
+}
+
+BankAccount *UserInput::InputOpenFixedAccount(string &BankName, long &BSB, double &Balance, string &OpeningDate)
+{
+    cout << "Deposit Amount: ";
+    double DepositAmount = RequestNum<double>();
+    cout << "Tenure Duration: ";
+    int Tenure = RequestNum<int>(1, 7);
+
+    return new FixedAccount(BSB, BankName, Balance, OpeningDate, DepositAmount, Tenure);
 }
 
 
-/* ----------------------------------------------------------
-                        Helper Functions
--------------------------------------------------------------*/
+
+    /* ----------------------------------------------------------
+                            Helper Functions
+    -------------------------------------------------------------*/
 
 bool UserInput::StringIsDate(string date)
 {
     int day, month, year;
 
-    if (date.size() != 10) {
-        return false;
-    } else if ((date.at(2) != '/') || (date.at(5) != '/'))  {
-        return false;
-    } else {
-        date.replace(2, 1, " ");
-        date.replace(5, 1, " ");
-        
-        istringstream iss(date);
-        iss >> day >> month >> year;
-        //cout << "day" << day << "month" << month << "year" << year << endl;
-        if ((month <= 12) && (month > 0) && (year > 0)) {
-            if ((day > 0) && (day <= 32)) {
-                set<int> thirtymonths = {9,4, 6, 11};
-                if ((month == 2) && (day <= 28)) {
-                    return true;
-                } else if (thirtymonths.count(month) && (day <= 30))
-                {
-                    return true;
-                } else if (day <= 31) {
-                    return true;
-                }
-                
-            }
-            // 30 days in september, april, june, november
-
-            
-        }
-        
+    if (date.size() != 10)
+    {
         return false;
     }
+    else if ((date.at(2) != '/') || (date.at(5) != '/'))
+    {
+        return false;
+    }
+    else
+    {
+        date.replace(2, 1, " ");
+        date.replace(5, 1, " ");
+
+        istringstream iss(date);
+        iss >> day >> month >> year;
+        // cout << "day" << day << "month" << month << "year" << year << endl;
+        if ((month <= 12) && (month > 0) && (year > 0))
+        {
+            if ((day > 0) && (day <= 32))
+            {
+                set<int> thirtymonths = {9, 4, 6, 11};
+                if ((month == 2) && (day <= 28))
+                {
+                    return true;
+                }
+                else if (thirtymonths.count(month) && (day <= 30))
+                {
+                    return true;
+                }
+                else if (day <= 31)
+                {
+                    return true;
+                }
+            }
+            // 30 days in september, april, june, november
+        }
+
+        return false;
+    }
+}
+
+bool UserInput::StringIsAlphaNumeric(string line) {
+    for (auto ch : line)
+    {
+        if (!isalpha(ch) && !isdigit(ch))
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 bool UserInput::StringIsAlpha(string line)
@@ -160,6 +200,14 @@ string UserInput::RequestAlphaString() {
     }    
     return temp;
 }
+string UserInput::RequestAlphaNumericString() {
+    string temp;
+    cin >> temp;
+    while (!StringIsAlphaNumeric(temp)) {
+        cin >> temp;
+    }
+    return temp;
+}
 
 template <typename T>
 T UserInput::RequestNum()
@@ -177,6 +225,19 @@ T UserInput::RequestNum(int lowerLimit)
     while (temp < lowerLimit)
     {
         cout << temp << " is invalid. Please input a number above " << lowerLimit << endl;
+        temp = RequestNum<T>();
+    }
+    return temp;
+}
+
+template <typename T>
+T UserInput::RequestNum(int lowerLimit, int upperLimit)
+{
+    T temp;
+    temp = RequestNum<T>();
+    while ((temp <= lowerLimit) || (temp >= upperLimit))
+    {
+        cout << temp << " is invalid. Please input a in the range ("<< lowerLimit << "-" << upperLimit << " )" << endl;
         temp = RequestNum<T>();
     }
     return temp;

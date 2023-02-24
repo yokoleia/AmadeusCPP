@@ -3,12 +3,12 @@
 #include <iomanip>
 #include <cmath>
 #include <string>
-
+#include "Display.h"
 using namespace std;
 
-int Customer::ReferenceCustomerID = 99;
+int Customer::ReferenceCustomerID = 100;
 
-//Customer::Customer(string CustomerName = "Invalid", int Age = -1, int Mobile = -1, string PassportNumber = "Invalid")
+//Customer::Customer(string CustomerName = "Invalid", int Age = Print-1, int Mobile = -1, string PassportNumber = "Invalid")
 Customer::Customer(string CustomerName, string DateOfBirth, int Age, int Mobile, string PassportNumber)
 {
     cout << "Customer Constructor" << endl;
@@ -17,13 +17,35 @@ Customer::Customer(string CustomerName, string DateOfBirth, int Age, int Mobile,
         throw runtime_error("CustomerID not created. Insufficient information provided");
     }*/
 
-    ReferenceCustomerID++;
     this->CustomerID = ReferenceCustomerID;
     this->CustomerName = CustomerName;
     this->DateOfBirth = DateOfBirth;
     this->Age = Age;
     this->Mobile = Mobile;
     this->PassportNumber = PassportNumber;
+    
+    Display::clearConsole();
+    ReferenceCustomerID++;
+    Print();
+}
+
+void Customer::Print() const
+{
+    cout << endl << "Here are your new Account Details" << endl;
+
+    cout << "Customer ID: " << CustomerID << endl;
+    cout << "Name: " << CustomerName << endl;
+    cout << "Date of Birth: " << DateOfBirth << endl;
+    cout << "Age: " << Age << endl;
+    cout << "Mobile Number: " << Mobile << endl;
+    cout << "Passport Number: " << PassportNumber << endl;
+    if (Account != nullptr)
+    {
+        cout << "Bank Account: " << endl;
+        Account->PrintDetails(); // assume BankAccount has its own print() function
+    } else {
+        cout << "No Bank Account:" << endl;;
+    }
 }
 
 // Accessors
@@ -52,6 +74,9 @@ string Customer::getPassportNumber() const
     return PassportNumber;
 }
 
+BankAccount* Customer::getBankAccount() const {
+    return Account;
+}
 
 
 // Mutators

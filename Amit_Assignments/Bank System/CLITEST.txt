@@ -1,0 +1,16 @@
+// Create Customer
+1
+Rab
+Dawanincura
+22/12/1997
+123123123
+xyz
+
+
+// Create Savings Account
+2
+100
+5000
+25/02/2023
+1
+1

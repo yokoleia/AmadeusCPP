@@ -6,16 +6,8 @@
 
 using namespace std;
 
-// function to setup bank data
-void SetupBank(Bank& myBank)
-{
-    cout << "My bank BSB:" << myBank.getBranchBSB() << endl;
-    myBank.CustomerRegistration();
-
-}
 
 int main() {
-    Display display;
     cin.exceptions(ios::failbit); // Allow cin to throw exceptions
     
     // Main Variables
@@ -26,17 +18,19 @@ int main() {
    
 
     while (true) {
-        
+
+        Display::clearConsole();
         try {
 
-            display.MainMenu();
+            Display::MainMenu();
             cin >> option;
+            Display::clearConsole();
             switch(option) {
                 
                 // Create new customer Data
                 case 1:
-                    
-                    SetupBank(myBank);
+
+                    myBank.CustomerRegistration();
                     break;
 
                 // Assign a bank account to a customer            
@@ -87,7 +81,11 @@ int main() {
 
         string temphold;
         cout << "Press Enter key to continue..." << endl;
+        cin.clear();
+        cin.ignore(80, '\n');
+
         getline(cin, temphold);
+        Display::clearConsole();
     }
 
 

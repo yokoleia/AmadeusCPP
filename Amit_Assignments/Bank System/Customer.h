@@ -16,7 +16,7 @@ class Customer
         int Age;
         int Mobile;
         string PassportNumber;
-        BankAccount* Account;
+        BankAccount* Account = nullptr;
 
     public:
         static int ReferenceCustomerID;
@@ -24,12 +24,16 @@ class Customer
         // Customer(string CustomerName = "Invalid", int Age = -1, int Mobile = -1, string PassportNumber = "Invalid");
         Customer(string CustomerName, string DOB, int Age, int Mobile, string PassportNumber);
 
+        // Print
+        void Print() const;
+
         // Accessors
         int getCustomerID() const;
         string getCustomerName() const;
         int getAge() const;
         int getMobile() const;
         string getPassportNumber() const;
+        BankAccount* getBankAccount() const;
 
 
         // Mutators
