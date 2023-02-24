@@ -14,11 +14,13 @@ public:
     static void clearConsole() 
     {
     #ifdef _WIN32
-            system("cls");
+            //system("cls");
     #else
             system("clear");
     #endif
     }
+
+    
 
     static void MainMenu()
     {

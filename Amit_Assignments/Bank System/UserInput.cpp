@@ -7,6 +7,7 @@
 #include <sstream>
 #include <string>
 #include <set>
+#include "Time.h"
 
 void UserInput::InputCustomerRegistration(string &CustomerName, string& DOB, int &Age, int &Mobile, string &PassportNumber)
 {
@@ -40,10 +41,12 @@ void UserInput::InputCustomerRegistration(string &CustomerName, string& DOB, int
     PassportNumber = RequestAlphaNumericString();
 }
 
-void UserInput::InputRequestCustomerNumber(int& CustomerID) {
+int UserInput::InputRequestCustomerNumber() {
+    
     cout << "What is your Customer Number: ";
-    CustomerID = RequestNum<long>(100);
+    int CustomerID = RequestNum<int>(100);
     cout << "Customer number: " << CustomerID << endl;
+    return CustomerID;
 }
 
 
@@ -52,12 +55,7 @@ void UserInput::InputOpenBankAccount(BankAccount *BankAccount, long& BSB, string
     double Balance;
     string OpeningDate;
 
-    cout << "Input Opening Balance: "; // << endl;2
-    Balance = RequestNum<double>();
-    if (Balance < 0)
-    {
-        throw runtime_error("Can't open a bank account with a negative Balance.");
-    }
+    
 
     cout << "Enter Date (DD/MM/YYYY): "; // << endl;
     OpeningDate = RequestDate();
@@ -67,10 +65,22 @@ void UserInput::InputOpenBankAccount(BankAccount *BankAccount, long& BSB, string
 
     
     if (isSavings) {
+        cout << "Input Opening Balance: "; // << endl;2
+        Balance = RequestNum<double>();
+        if (Balance < 0)
+        {
+            throw runtime_error("Can't open a bank account with a negative Balance.");
+        }
 
         //BankAccount *InputOpenSavingsAccount(string & BankName, long &BSB, long &AccountNumber, double &Balance, string &OpeningDate);
         BankAccount = InputOpenSavingsAccount(BankName, BSB, Balance, OpeningDate);
     } else {
+        cout << "Input Deposit Amount: "; // << endl;2
+        Balance = RequestNum<double>();
+        if (Balance < 0)
+        {
+            throw runtime_error("Can't open a bank account with a negative Balance.");
+        }
         BankAccount = InputOpenFixedAccount(BankName, BSB, Balance, OpeningDate);
     }
    
@@ -87,19 +97,20 @@ BankAccount *UserInput::InputOpenSavingsAccount(string& BankName, long& BSB, dou
 
 BankAccount *UserInput::InputOpenFixedAccount(string &BankName, long &BSB, double &Balance, string &OpeningDate)
 {
-    cout << "Deposit Amount: ";
-    double DepositAmount = RequestNum<double>();
     cout << "Tenure Duration: ";
     int Tenure = RequestNum<int>(1, 7);
 
-    return new FixedAccount(BSB, BankName, Balance, OpeningDate, DepositAmount, Tenure);
+    // Opening Balance And Deposit Amount are the same
+    return new FixedAccount(BSB, BankName, Balance, OpeningDate, Balance, Tenure);
 }
 
-
-
-    /* ----------------------------------------------------------
-                            Helper Functions
-    -------------------------------------------------------------*/
+void UserInput::OutputRequestBalance(double balance, double interest) {
+    cout << "Your Account Balance: " << balance << endl;
+    cout << "Interest Earned: " << interest << endl;
+}
+/* ----------------------------------------------------------
+                        Helper Functions
+-------------------------------------------------------------*/
 
 bool UserInput::StringIsDate(string date)
 {
@@ -235,7 +246,7 @@ T UserInput::RequestNum(int lowerLimit, int upperLimit)
 {
     T temp;
     temp = RequestNum<T>();
-    while ((temp <= lowerLimit) || (temp >= upperLimit))
+    while ((temp <= lowerLimit) && (temp >= upperLimit))
     {
         cout << temp << " is invalid. Please input a in the range ("<< lowerLimit << "-" << upperLimit << " )" << endl;
         temp = RequestNum<T>();

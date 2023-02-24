@@ -1,6 +1,7 @@
 #include "BankAccount.h"
 #include "FixedAccount.h"
 #include "Display.h"
+#include "Time.h"
 #include <iostream>
 #include <iomanip>
 #include <cmath>
@@ -22,9 +23,13 @@ FixedAccount::FixedAccount(long BSB, string BankName, double Balance, string Ope
     this->OpeningDate = OpeningDate;
     this->DepositAmount = DepositAmount;
     this->Tenure = Tenure;
-    
+    CalcInterest();
     PrintDetails();
     ReferenceAccountNumber++;
+}
+void FixedAccount::CalcInterest() {
+    int years = Time::get_current_year() - stoi(OpeningDate.substr(6, 4));
+    interestEarned = DepositAmount * years * 0.08;
 }
 
 void FixedAccount::PrintDetails() const
@@ -36,8 +41,9 @@ void FixedAccount::PrintDetails() const
     cout << "Account Number: " << AccountNumber << endl;
     cout << "Account Opened: " << OpeningDate << endl;
     cout << "Account Type: Fixed" << endl;
-    
-    cout << "Minimum Balance: " <<  endl;
+    cout << "Deposit Amount" << DepositAmount << endl;
+    cout << "Currentbalance" << getBalance() << endl;
+    cout << "Tenure: " << Tenure<<  endl;
 }
 
 void FixedAccount::setDepositAmount(double amount)

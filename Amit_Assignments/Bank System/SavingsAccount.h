@@ -13,7 +13,7 @@ public:
     SavingsAccount(long BSB, string BankName, double Balance, string OpeningDate, bool SalaryAccount);
     ~SavingsAccount() {};
     void PrintDetails() const override;
-
+    void CalcInterest() override;
 };
 
 #endif

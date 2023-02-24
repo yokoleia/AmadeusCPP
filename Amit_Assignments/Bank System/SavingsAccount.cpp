@@ -1,5 +1,6 @@
 #include "BankAccount.h"
 #include "SavingsAccount.h"
+#include "Time.h"
 #include "Display.h"
 #include <iostream>
 #include <iomanip>
@@ -12,6 +13,7 @@ SavingsAccount::SavingsAccount(long BSB,string BankName, double Balance, string 
     
     if (!SalaryAccount) {
         if (Balance<5000) {
+            cout << Balance;
             throw runtime_error("Insufficient balance for Account creation, Minimum balance is 5000.");
         } else {
             this->MinimumBalance = 5000;
@@ -32,6 +34,12 @@ SavingsAccount::SavingsAccount(long BSB,string BankName, double Balance, string 
     PrintDetails();
 }
 
+void SavingsAccount::CalcInterest()
+{
+    int years = Time::get_current_year() - stoi(OpeningDate.substr(6, 4));
+    interestEarned = Balance * years * 0.04;
+}
+
 void SavingsAccount::PrintDetails() const {
     Display::clearConsole();
     cout << "Savings Account Details: " << endl;
@@ -44,6 +52,7 @@ void SavingsAccount::PrintDetails() const {
         cout << "\tSalary Account" << endl;
     }
     cout << "Minimum Balance: " << MinimumBalance << endl;
+    cout << "Current Balance: " << Balance << endl; 
 
 
 

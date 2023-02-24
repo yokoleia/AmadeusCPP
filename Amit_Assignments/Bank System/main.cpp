@@ -40,8 +40,9 @@ int main() {
 
                 // Display balance or interest earned of a customer
                 case 3:
+                    myBank.CustomerBalanceEnquiry();
                     break;
-                
+
                 // sort customer data
                 case 4:
                     break;

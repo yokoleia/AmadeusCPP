@@ -2,7 +2,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cmath>
-
+#include "Time.h"
 using namespace std;
 /*
 BankAccount::BankAccount(long BSB, long AccountNumber, string BankName, double Balance, string OpeningDate)
@@ -31,10 +31,11 @@ std::string BankAccount::getBankName() const {
 }
 
 double BankAccount::getBalance() const {
-    return Balance;
+    
+    return Balance + interestEarned;
 }
 
-std::string BankAccount::getOpeningDate() const {
+string BankAccount::getOpeningDate() const {
     return OpeningDate;
 }
 
@@ -42,3 +43,4 @@ std::string BankAccount::getOpeningDate() const {
 void BankAccount::setBalance(double newBalance) {
     Balance = newBalance;
 }
+

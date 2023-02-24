@@ -19,15 +19,17 @@ private:
 public:
     UserInput ui;
     Bank();
+    void SetupTestData();
+
     //Accessors
     long getBranchBSB() { return BSBCode; }
-
-    //Mutators
+    bool CustomerHasAccount(int &customerID);
+    bool CustomerHasBankAccount(int &CustomerID);
+    void CustomerBalanceEnquiry();
+    
+    // Mutators
     void CustomerRegistration();
     void OpenBankAccount();
-
-};
-
-
+    };
 
 #endif

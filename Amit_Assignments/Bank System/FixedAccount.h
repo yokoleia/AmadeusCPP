@@ -19,6 +19,7 @@ class FixedAccount : public BankAccount {
         FixedAccount(long BSB, string BankName, double Balance, string OpeningDate, double DepositAmount, int Tenure);
         ~FixedAccount(){};
         void PrintDetails() const override;
+        void CalcInterest() override;
         
         //Access and Mutate Functions
         void setDepositAmount(double amount);
