@@ -4,6 +4,8 @@
 
 using namespace std;
 
+
+
 int main()
 {
     string line;
@@ -11,16 +13,7 @@ int main()
     deque<char> charStore;
 
     getline(cin, line);
-    for (auto ch : line) {
-        if (isalpha(ch)) {
-            if (isupper(ch)) {
-                // XOR CH to conver to upper
-                ch = ch ^ 0x20;
-            }
-            charStore.push_back(ch);
-        } 
-       
-    }
+    
 
     while (charStore.size() > 1) {
         
