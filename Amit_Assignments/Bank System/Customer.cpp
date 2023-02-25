@@ -3,7 +3,6 @@
 #include <iomanip>
 #include <cmath>
 #include <string>
-#include "Display.h"
 using namespace std;
 
 int Customer::ReferenceCustomerID = 100;
@@ -27,8 +26,9 @@ Customer::Customer(string CustomerName, string DateOfBirth, int Age, int Mobile,
 }
 
 void Customer::PrintNameAndBalance() const {
-    cout << "Name: " << CustomerName << "\t\tBalance: $";
-    cout << this->getBalance() << endl;
+    cout << "CustomerID: " << this->getCustomerID() << "\t\t";
+    cout << "Name: " << CustomerName << "\t\t";
+    cout << "Balance: $" << fixed << setprecision(2) << this->getBalance() << endl;
 }
 
 void Customer::Print() const

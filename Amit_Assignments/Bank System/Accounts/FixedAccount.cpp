@@ -1,7 +1,7 @@
 #include "BankAccount.h"
 #include "FixedAccount.h"
-#include "Display.h"
-#include "Time.h"
+#include "../Helpers/Display.h"
+#include "../Helpers/MyTime.h"
 #include <iostream>
 #include <iomanip>
 #include <cmath>
@@ -28,7 +28,7 @@ FixedAccount::FixedAccount(long BSB, string BankName, double Balance, string Ope
     ReferenceAccountNumber++;
 }
 void FixedAccount::CalcInterest() {
-    int years = Time::get_current_year() - stoi(OpeningDate.substr(6, 4));
+    int years = MyTime::get_current_year() - stoi(OpeningDate.substr(6, 4));
     interestEarned = DepositAmount * years * 0.08;
 }
 

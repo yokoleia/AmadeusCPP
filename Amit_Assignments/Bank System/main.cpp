@@ -2,7 +2,6 @@
 #include <vector>
 #include "Customer.h"
 #include "Bank.h"
-#include "Display.h"
 
 using namespace std;
 
@@ -45,7 +44,7 @@ int main() {
 
                 // sort customer data
                 case 4:
-                    myBank.RequestDisplaySorted();
+                    myBank.RequestSort();
                     break;
 
                 // Persist customer data
@@ -54,10 +53,12 @@ int main() {
                 
                 // Show all customers
                 case 6:
+                    myBank.DisplayCustomers();
                     break;
                 
                 // Search Customers by Name
                 case 7:
+                    myBank.SearchCustomerName();
                     break;
                 
                 // exit

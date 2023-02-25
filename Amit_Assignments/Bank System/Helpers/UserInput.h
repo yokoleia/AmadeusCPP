@@ -1,10 +1,10 @@
 #ifndef USERINPUT_H
 #define USERINPUT_H
-#include "BankAccount.h"
-#include "Customer.h"
 #include <string>
 #include <memory>
 #include <vector>
+#include "../Customer.h"
+#include "../Accounts/BankAccount.h"
 
 using namespace std;
 class UserInput {
@@ -18,12 +18,14 @@ class UserInput {
         
         // Menu Option 4
         bool RequestSortTypeAlphabet();
-        void OutputSorted(vector<shared_ptr<Customer>>& CustomersOrderedAlphabet);
+        void OutputSorted(vector<shared_ptr<Customer>> &CustomersOrdered);
 
         // Requesters
         string RequestAlphaString();
         string RequestAlphaNumericString();
         string RequestDate();
+
+        string RequestName();
 
         //Outputters
         void OutputRequestBalance(double balance, double interest);

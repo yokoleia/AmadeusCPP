@@ -1,6 +1,5 @@
 #include "BankAccount.h"
 #include "SavingsAccount.h"
-#include "Time.h"
 #include "Display.h"
 #include <iostream>
 #include <iomanip>
@@ -36,7 +35,7 @@ SavingsAccount::SavingsAccount(long BSB,string BankName, double Balance, string 
 
 void SavingsAccount::CalcInterest()
 {
-    int years = Time::get_current_year() - stoi(OpeningDate.substr(6, 4));
+    int years = MyTime::get_current_year() - stoi(OpeningDate.substr(6, 4));
     interestEarned = Balance * years * 0.04;
 }
 

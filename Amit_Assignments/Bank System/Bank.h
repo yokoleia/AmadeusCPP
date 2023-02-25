@@ -2,22 +2,21 @@
 #define BANK_H
 #include <vector>
 #include <map>
-#include "Customer.h"
-#include "BankAccount.h"
-#include "Bank.h"
-#include "UserInput.h"
 #include <memory>
+#include "Accounts/BankAccount.h"
+#include "Bank.h"
+#include "Customer.h"
+#include "DAO/FileDAO.h"
+#include "Helpers/UserInput.h"
 class Bank {
 
 private:
     static long BSBCode;
     static string BankName;
 
-    vector<shared_ptr<Customer>>CustomersOrderedAlphabet;
-    vector<shared_ptr<Customer>>CustomersOrderedBalance;
-
-    //map<long, Customer *> Customers;
+    vector<shared_ptr<Customer>>CustomersOrdered;
     map<int, shared_ptr<Customer>> Customers;
+
 
 public:
     UserInput ui;
@@ -25,24 +24,36 @@ public:
     ~Bank() {
         Customers.clear();
     }
-    void InsertCustomerBankAccount(shared_ptr<Customer> Customer_ptr);
-    void DeleteCustomer(int CustomerID);
-    int BinarySearch(vector<shared_ptr<Customer>>, int CustomerID);
     void SetupTestData();
 
-    void RequestDisplaySorted();
-    //Accessors
+    int BinarySearch(vector<shared_ptr<Customer>>, int CustomerID);
+    int BinarySearch(vector<shared_ptr<Customer>> vec, string CustomerName);
+    void SearchCustomerName();
+
+    void InsertCustomerBankAccount(shared_ptr<Customer> Customer_ptr);
+    void DeleteCustomer(int CustomerID);
+
     long getBranchBSB() { return BSBCode; }
+
     bool CustomerHasAccount(int &customerID);
     bool CustomerHasBankAccount(int &CustomerID);
     void CustomerBalanceEnquiry();
 
-    // Mutators
+    // Customer registration functions
     void CustomerRegistration();
-    void OpenBankAccount();
+    void CustomerRegistration(string CustomerName,string LastName,string DOB,int Age,int Mobile,string PassportNumber);
 
+    // open bank account functions
+    void OpenBankAccount();
+    void OpenSavingsAccount(int CustomerID, string BankName, long BSB, double Balance, string OpeningDate, bool isSalaryAccount);
+    void OpenFixedAccount(int CustomerID, string BankName, long BSB, double Balance, string OpeningDate, int Tenure);
+
+    // sorters
+    void RequestSort();
     void SortAlphabetic();
     void SortOrderBalance();
+
+    void DisplayCustomers();
 
 };
 

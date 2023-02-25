@@ -1,16 +1,15 @@
-#include "UserInput.h"
-#include "SavingsAccount.h"
-#include "FixedAccount.h"
 #include <iostream>
 #include <iomanip>
 #include <cmath>
 #include <sstream>
 #include <string>
 #include <set>
-#include "Time.h"
 #include <memory>
-#include "Customer.h"
 #include <vector>
+#include "UserInput.h"
+#include "../Accounts/SavingsAccount.h"
+#include "../Accounts/FixedAccount.h"
+
 
 void UserInput::InputCustomerRegistration(string &CustomerName, string& DOB, int &Age, int &Mobile, string &PassportNumber)
 {
@@ -54,7 +53,7 @@ int UserInput::InputRequestCustomerNumber() {
 
 bool UserInput::RequestSortTypeAlphabet()
 {
-    cout << "How would you like to sort the data: ";
+    cout << "How would you like to sort the data: (1=By Name, 0=By Balance)";
     return RequestNum<bool>();
 }
 
@@ -118,11 +117,21 @@ void UserInput::OutputRequestBalance(double balance, double interest) {
     cout << "Interest Earned: " << interest << endl;
 }
 
-void UserInput::OutputSorted(vector<shared_ptr<Customer>> &CustomersOrderedAlphabet) {
+void UserInput::OutputSorted(vector<shared_ptr<Customer>> &CustomersOrdered) {
     cout << "Here is the sorted data: " << endl;
-    for (const auto x : CustomersOrderedAlphabet) {
+    for (const auto x : CustomersOrdered)
+    {
         x->PrintNameAndBalance();
     }
+}
+
+string UserInput::RequestName() {
+    cout << "User Search:\n";
+    cout << "First Name: ";
+    string firstName = RequestAlphaString();
+    cout << "Last Name: ";
+    string lastName = RequestAlphaString();
+    return firstName + " " + lastName;
 }
 
 /* ----------------------------------------------------------
