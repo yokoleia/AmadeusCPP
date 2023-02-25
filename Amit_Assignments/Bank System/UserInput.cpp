@@ -8,6 +8,7 @@
 #include <string>
 #include <set>
 #include "Time.h"
+#include <memory>
 
 void UserInput::InputCustomerRegistration(string &CustomerName, string& DOB, int &Age, int &Mobile, string &PassportNumber)
 {
@@ -50,7 +51,7 @@ int UserInput::InputRequestCustomerNumber() {
 }
 
 
-void UserInput::InputOpenBankAccount(BankAccount *BankAccount, long& BSB, string& BankName) {
+void UserInput::InputOpenBankAccount(shared_ptr<BankAccount>& BankAccount, long& BSB, string& BankName) {
     bool isSavings; // 
     double Balance;
     string OpeningDate;
@@ -74,6 +75,7 @@ void UserInput::InputOpenBankAccount(BankAccount *BankAccount, long& BSB, string
 
         //BankAccount *InputOpenSavingsAccount(string & BankName, long &BSB, long &AccountNumber, double &Balance, string &OpeningDate);
         BankAccount = InputOpenSavingsAccount(BankName, BSB, Balance, OpeningDate);
+        
     } else {
         cout << "Input Deposit Amount: "; // << endl;2
         Balance = RequestNum<double>();
@@ -83,25 +85,25 @@ void UserInput::InputOpenBankAccount(BankAccount *BankAccount, long& BSB, string
         }
         BankAccount = InputOpenFixedAccount(BankName, BSB, Balance, OpeningDate);
     }
-   
+    BankAccount->PrintDetails();
 }
 
-BankAccount *UserInput::InputOpenSavingsAccount(string& BankName, long& BSB, double &Balance, string &OpeningDate)
+shared_ptr<BankAccount> UserInput::InputOpenSavingsAccount(string &BankName, long &BSB, double &Balance, string &OpeningDate)
 {
     bool isSalaryAccount;
     cout << "Is this a Salary Account: 0=No, 1=Yes: ";
     isSalaryAccount = RequestNum<bool>();
 
-    return new SavingsAccount(BSB, BankName, Balance, OpeningDate, isSalaryAccount);
+    return make_shared<SavingsAccount>(BSB, BankName, Balance, OpeningDate, isSalaryAccount);
 }
 
-BankAccount *UserInput::InputOpenFixedAccount(string &BankName, long &BSB, double &Balance, string &OpeningDate)
+shared_ptr<BankAccount> UserInput::InputOpenFixedAccount(string &BankName, long &BSB, double &Balance, string &OpeningDate)
 {
     cout << "Tenure Duration: ";
     int Tenure = RequestNum<int>(1, 7);
 
     // Opening Balance And Deposit Amount are the same
-    return new FixedAccount(BSB, BankName, Balance, OpeningDate, Balance, Tenure);
+    return make_shared<FixedAccount>(BSB, BankName, Balance, OpeningDate, Balance, Tenure);
 }
 
 void UserInput::OutputRequestBalance(double balance, double interest) {

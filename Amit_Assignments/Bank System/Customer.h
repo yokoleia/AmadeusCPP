@@ -3,6 +3,7 @@
 #include "customer.h"
 #include "BankAccount.h"
 #include <string>
+#include <memory>
 
 using namespace std;
 
@@ -16,14 +17,14 @@ class Customer
         int Age;
         int Mobile;
         string PassportNumber;
-        BankAccount* Account = nullptr;
+        shared_ptr<BankAccount> Account = nullptr;
 
     public:
         static int ReferenceCustomerID;
 
         // Customer(string CustomerName = "Invalid", int Age = -1, int Mobile = -1, string PassportNumber = "Invalid");
         Customer(string CustomerName, string DOB, int Age, int Mobile, string PassportNumber);
-
+        
         // Print
         void Print() const;
 
@@ -33,11 +34,11 @@ class Customer
         int getAge() const;
         int getMobile() const;
         string getPassportNumber() const;
-        BankAccount* getBankAccount() const;
+        shared_ptr<BankAccount> getBankAccount() const;
 
 
         // Mutators
-        void setBankAccount(BankAccount* Account);
+        void setBankAccount(shared_ptr<BankAccount> Account);
         void setCustomerID(int id);
         void setCustomerName(string name);
         void setAge(int age);

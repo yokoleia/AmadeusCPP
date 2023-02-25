@@ -16,6 +16,8 @@ protected:
     double interestEarned;
 
 public:
+    
+
     static long ReferenceAccountNumber;
     virtual void PrintDetails() const = 0;
     virtual void CalcInterest() = 0;

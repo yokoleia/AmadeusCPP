@@ -7,6 +7,7 @@
 #include "Customer.h"
 #include <string>
 #include "UserInput.h"
+#include <memory>
 
 using namespace std;
 
@@ -23,7 +24,7 @@ Bank::Bank() {
     
 }
 void Bank::SetupTestData() {
-    
+    /*
     Customer *c1 = new Customer("Customer One", "22/12/1997", 20, 123412345, "XAXA");
     Customers.emplace(c1->getCustomerID(), c1);
 
@@ -32,7 +33,9 @@ void Bank::SetupTestData() {
 
     //Customers.at(c1->getCustomerID())->setBankAccount(new SavingsAccount(123123, "Pass Test", 5000, "12/12/1200", false));
     Customers.at(c2->getCustomerID())->setBankAccount(new SavingsAccount(123123, "Fail Test", 0, "12/12/1200", false));
+    */
 }
+
 
 void Bank::CustomerRegistration()
 {
@@ -46,16 +49,18 @@ void Bank::CustomerRegistration()
 
     // TAKE INPUT
     ui.InputCustomerRegistration(CustomerName, DOB, Age, Mobile, PassportNumber);
-    Customer *myCustomer = new Customer(CustomerName, DOB, Age, Mobile, PassportNumber);
+    std::shared_ptr<Customer> newCustomer = std::make_shared<Customer>(CustomerName, DOB, Age, Mobile, PassportNumber);
     
-
-    //cout << "Customers Size Before: " << Customers.size();
-    Customers.emplace(myCustomer->getCustomerID(), myCustomer);
-    // << "Customers Size After: " << Customers.size();
+    
+    cout << "Customers Size Before: " << Customers.size();
+    Customers.emplace(newCustomer->getCustomerID(), newCustomer);
+    cout << "Customers Size After: " << Customers.size();
+    
+    
 
     //test code
     cout << "test map" << endl;
-    int testCID = myCustomer->getCustomerID();
+    int testCID = newCustomer->getCustomerID();
     cout << Customers.count(testCID) << " Accounts belonging to CID: " << testCID << endl;
 }
 void Bank::OpenBankAccount() {
@@ -79,7 +84,7 @@ void Bank::OpenBankAccount() {
         throw runtime_error("You already have a Bank Account. You cannot have more than one!");
     }
 
-    BankAccount *userBankAccount;
+    shared_ptr<BankAccount> userBankAccount;
     ui.InputOpenBankAccount(userBankAccount, this->BSBCode, this->BankName);
 
     Customers.at(CustomerID)->setBankAccount(userBankAccount);

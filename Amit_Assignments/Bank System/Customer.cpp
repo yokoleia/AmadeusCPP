@@ -8,14 +8,11 @@ using namespace std;
 
 int Customer::ReferenceCustomerID = 100;
 
-//Customer::Customer(string CustomerName = "Invalid", int Age = Print-1, int Mobile = -1, string PassportNumber = "Invalid")
+
 Customer::Customer(string CustomerName, string DateOfBirth, int Age, int Mobile, string PassportNumber)
 {
     cout << "Customer Constructor" << endl;
-    /*// increment RCID
-    if ((CustomerName == "Invalid") || (PassportNumber == "Invalid") || (Age == -1) || (Mobile == -1)) {
-        throw runtime_error("CustomerID not created. Insufficient information provided");
-    }*/
+
 
     this->CustomerID = ReferenceCustomerID;
     this->CustomerName = CustomerName;
@@ -42,7 +39,7 @@ void Customer::Print() const
     if (Account != nullptr)
     {
         cout << "Bank Account: " << endl;
-        Account->PrintDetails(); // assume BankAccount has its own print() function
+        Account->PrintDetails(); 
     } else {
         cout << "No Bank Account:" << endl;;
     }
@@ -74,15 +71,21 @@ string Customer::getPassportNumber() const
     return PassportNumber;
 }
 
-BankAccount* Customer::getBankAccount() const {
+shared_ptr<BankAccount> Customer::getBankAccount() const {
     return Account;
 }
 
 
 // Mutators
-void Customer::setBankAccount(BankAccount *Account)
+void Customer::setBankAccount(shared_ptr<BankAccount> Account)
 {
+    //cout << "\n\n==========Print from setBankAccount Function: sharedpointer\n";
+    //Account->PrintDetails();
+    
     this->Account = Account;
+    //cout << "\n\n==========Print from setBankAccount Function: Object Account\n";
+    //this->Account->PrintDetails();
+
 }
 
 void Customer::setCustomerID(int id)
