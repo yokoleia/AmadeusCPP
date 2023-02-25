@@ -25,7 +25,7 @@ class Customer
 
         // Customer(string CustomerName = "Invalid", int Age = -1, int Mobile = -1, string PassportNumber = "Invalid");
         Customer(string CustomerName, string DOB, int Age, int Mobile, string PassportNumber);
-        
+        friend ostream &operator<<(ostream &os, const Customer &a);
         // Print
         void Print() const;
 
@@ -36,6 +36,7 @@ class Customer
         double getBalance() const;
         int getAge() const;
         int getMobile() const;
+        string getDateOfBirth() const { return DateOfBirth; }
         string getPassportNumber() const;
         shared_ptr<BankAccount> getBankAccount() const;
 
@@ -47,6 +48,7 @@ class Customer
         void setAge(int age);
         void setMobile(int mobile);
         void setPassportNumber(string passportNumber);
+
         
 };
 

@@ -18,6 +18,8 @@ class FixedAccount : public BankAccount {
     public:
         FixedAccount(long BSB, string BankName, double Balance, string OpeningDate, double DepositAmount, int Tenure);
         ~FixedAccount(){};
+        
+        friend ostream& operator<<(ostream& os, const FixedAccount &a);
         void PrintDetails() const override;
         void CalcInterest() override;
         

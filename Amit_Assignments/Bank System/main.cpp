@@ -49,6 +49,7 @@ int main() {
 
                 // Persist customer data
                 case 5:
+                    myBank.DataPersistence();
                     break;
                 
                 // Show all customers

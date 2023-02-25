@@ -15,9 +15,9 @@ protected:
     double Balance;
     string OpeningDate;
     double interestEarned;
-
+    bool isSavings;
 public:
-    
+    virtual ~BankAccount() = default;
 
     static long ReferenceAccountNumber;
     virtual void PrintDetails() const = 0;
@@ -37,7 +37,7 @@ public:
     // Mutator functions
     void setBalance(double newBalance);
     void setOpeningDate(string newOpeningDate);
-
+    bool getIsSavings() {return isSavings;}
     /*
 
 

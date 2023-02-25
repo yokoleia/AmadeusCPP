@@ -27,15 +27,27 @@ SavingsAccount::SavingsAccount(long BSB,string BankName, double Balance, string 
     this->Balance = Balance;
     this->OpeningDate = OpeningDate;
     this->SalaryAccount = SalaryAccount;
-
+    this->isSavings = true;
     ReferenceAccountNumber++;
     
     PrintDetails();
 }
-
+ostream &operator<<(ostream &os, const SavingsAccount &a)
+{
+    os << a.isSavings
+       << "," << a.BSB
+       << "," << a.AccountNumber
+       << "," << a.BankName
+       << "," << a.getBalance()
+       << "," << a.getOpeningDate()
+       << "," << a.SalaryAccount
+       << "," << a.MinimumBalance 
+       << ",";
+    return os;
+}
 void SavingsAccount::CalcInterest()
 {
-    int years = MyTime::get_current_year() - stoi(OpeningDate.substr(6, 4));
+    int years = MyTime::GetCurrentYear() - stoi(OpeningDate.substr(6, 4));
     interestEarned = Balance * years * 0.04;
 }
 

@@ -15,7 +15,7 @@ FixedAccount::FixedAccount(long BSB, string BankName, double Balance, string Ope
     } else if((Tenure < 1) || Tenure > 7) {
         throw runtime_error("Tenure amount invalid. Must be in range: 1-7");
     }
-
+    this->isSavings = false;
     this->BSB = BSB;
     this->AccountNumber = ReferenceAccountNumber;
     this->BankName = BankName;
@@ -27,8 +27,24 @@ FixedAccount::FixedAccount(long BSB, string BankName, double Balance, string Ope
     PrintDetails();
     ReferenceAccountNumber++;
 }
+
+ostream &operator<<(ostream &os, const FixedAccount &a)
+{
+    cout << "trying to use the overloaded streamout operator" << endl;
+    os << a.isSavings
+       << "," << a.BSB
+       << "," << a.AccountNumber
+       << "," << a.BankName
+       << "," << a.getBalance()
+       << "," << a.OpeningDate
+       << "," << a.DepositAmount
+       << "," << a.Tenure
+       << ",";
+    return os;
+}
+
 void FixedAccount::CalcInterest() {
-    int years = MyTime::get_current_year() - stoi(OpeningDate.substr(6, 4));
+    int years = MyTime::GetCurrentYear() - stoi(OpeningDate.substr(6, 4));
     interestEarned = DepositAmount * years * 0.08;
 }
 

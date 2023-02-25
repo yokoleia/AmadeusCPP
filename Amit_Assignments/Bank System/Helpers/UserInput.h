@@ -24,8 +24,8 @@ class UserInput {
         string RequestAlphaString();
         string RequestAlphaNumericString();
         string RequestDate();
-
         string RequestName();
+
 
         //Outputters
         void OutputRequestBalance(double balance, double interest);
@@ -44,6 +44,8 @@ class UserInput {
         template <typename T>
         T RequestNum(int lowerLimit, int upperLimit);
 
-
+        // Data Persistence:
+        bool RequestPersistenceOPType();
+        bool RequestExportToFile();
 };
 #endif

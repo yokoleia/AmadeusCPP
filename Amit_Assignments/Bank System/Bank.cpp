@@ -12,8 +12,8 @@
 
 using namespace std;
 
-// The task doesn't indicate multiple BSBs so I'm not going to implement branches
-// However, if multiple branches are implemented, each bank class can be refactored into a branch class. 
+// The task doesn't indicate multiple BSBs so I'm not going to implement Bank Branches
+// However, if multiple branches are implemented, The Bank class can be refactored into a branch class. 
 
 long Bank::BSBCode = 123456;
 string Bank::BankName = "Rab's Bank";
@@ -24,8 +24,6 @@ Bank::Bank() {
     //SetupTestData();
     
 }
-
-
 
 void Bank::DeleteCustomer(int CustomerID) {
     int i = BinarySearch(CustomersOrdered, CustomerID); 
@@ -192,10 +190,12 @@ void Bank::CustomerBalanceEnquiry()
 }
 
 void Bank::RequestSort() {
-    bool SortByAlphaBet = ui.RequestSortTypeAlphabet();
-    if (SortByAlphaBet) {
+    if (ui.RequestSortTypeAlphabet())
+    {
         SortAlphabetic();
-    } else {
+    }
+    else
+    {
         SortOrderBalance();
     }
 }
@@ -211,5 +211,25 @@ void Bank::SearchCustomerName() {
         cout << "No Customer Found" << endl;
     } else {
         CustomersOrdered.at(i)->PrintNameAndBalance();
+    }
+}
+
+void Bank::DataPersistence() {
+    
+    if (ui.RequestPersistenceOPType())
+    {
+        // Exporting
+        if (ui.RequestExportToFile()) {
+            FileDAO fd;
+            fd.saveAllCustomers(CustomersOrdered);
+        } else {
+            cout << "RD BMS UNAVAILABLE:" << endl;
+        }
+
+    } else {
+        FileDAO fd;
+        cout << "importing data" << endl;
+        fd.retrieveAllCustomers(Customers, CustomersOrdered);
+        // import
     }
 }

@@ -25,6 +25,17 @@ Customer::Customer(string CustomerName, string DateOfBirth, int Age, int Mobile,
     Print();
 }
 
+ostream &operator<<(ostream &outFS, const Customer &customer)
+{
+    outFS << customer.getCustomerName();
+    outFS << "," << customer.getDateOfBirth();
+    outFS << "," << customer.getAge();
+    outFS << "," << customer.getMobile();
+    outFS << "," << customer.getPassportNumber();
+
+    return outFS;
+}
+
 void Customer::PrintNameAndBalance() const {
     cout << "CustomerID: " << this->getCustomerID() << "\t\t";
     cout << "Name: " << CustomerName << "\t\t";

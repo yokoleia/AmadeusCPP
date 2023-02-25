@@ -17,9 +17,11 @@ private:
     vector<shared_ptr<Customer>>CustomersOrdered;
     map<int, shared_ptr<Customer>> Customers;
 
+    //Interfacing Functions
+    UserInput ui;
 
 public:
-    UserInput ui;
+    
     Bank();
     ~Bank() {
         Customers.clear();
@@ -55,6 +57,8 @@ public:
 
     void DisplayCustomers();
 
+    // Persistence
+    void DataPersistence();
 };
 
 #endif

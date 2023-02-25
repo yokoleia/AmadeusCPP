@@ -134,6 +134,17 @@ string UserInput::RequestName() {
     return firstName + " " + lastName;
 }
 
+bool UserInput::RequestPersistenceOPType()
+{
+    cout << "Would you like to import or export data (0=Import, 1=Export): " << endl;
+    return RequestNum<bool>();
+}
+
+bool UserInput::RequestExportToFile() {
+    cout << "How you like to export data (0=RDMBS, 1=File): " << endl;
+    return RequestNum<bool>();
+}
+
 /* ----------------------------------------------------------
                         Helper Functions
 -------------------------------------------------------------*/
