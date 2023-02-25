@@ -26,6 +26,11 @@ Customer::Customer(string CustomerName, string DateOfBirth, int Age, int Mobile,
     Print();
 }
 
+void Customer::PrintNameAndBalance() const {
+    cout << "Name: " << CustomerName << "\t\tBalance: $";
+    cout << this->getBalance() << endl;
+}
+
 void Customer::Print() const
 {
     cout << endl << "Here are your new Account Details" << endl;
@@ -46,6 +51,15 @@ void Customer::Print() const
 }
 
 // Accessors
+
+double Customer::getBalance() const {
+    if (Account == nullptr) {
+        return 0;
+    } else {
+        return Account->getBalance();
+    }
+}
+
 int Customer::getCustomerID() const
 {
     return CustomerID;

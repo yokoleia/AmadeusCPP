@@ -8,6 +8,7 @@
 #include <string>
 #include "UserInput.h"
 #include <memory>
+#include <algorithm>
 
 using namespace std;
 
@@ -23,6 +24,62 @@ Bank::Bank() {
     //SetupTestData();
     
 }
+void Bank::DeleteCustomer(int CustomerID) {
+    int i;
+    // find index in COA Vector and erase
+    i=BinarySearch(CustomersOrderedAlphabet, CustomerID);
+    CustomersOrderedAlphabet.erase(CustomersOrderedAlphabet.begin()+i);
+    
+    // find index in COB Vector and erase
+    i = BinarySearch(CustomersOrderedBalance, CustomerID);
+    CustomersOrderedAlphabet.erase(CustomersOrderedBalance.begin() + i);
+    Customers.erase(CustomerID);
+}
+
+int Bank::BinarySearch(vector<shared_ptr<Customer>> vec, int CustomerID)
+{
+    int left = 0, right = vec.size() - 1;
+    while (left <= right)
+    {
+        int mid = left + (right - left) / 2;
+        if (vec[mid]->getCustomerID() == CustomerID)
+        {
+            return mid;
+        }
+        else if (vec[mid]->getCustomerID() < CustomerID)
+        {
+            left = mid + 1;
+        }
+        else
+        {
+            right = mid - 1;
+        }
+    }
+    return -1;
+}
+
+
+
+void Bank::InsertCustomerBankAccount(shared_ptr<Customer> Customer_ptr) {
+    Customers.emplace(Customer_ptr->getCustomerID(), Customer_ptr);
+    CustomersOrderedAlphabet.push_back(Customer_ptr);
+    CustomersOrderedBalance.push_back(Customer_ptr);
+
+
+}
+
+void Bank::SortAlphabetic()
+{
+    sort(CustomersOrderedAlphabet.begin(), CustomersOrderedAlphabet.end(), [](const shared_ptr<Customer> &c1, const shared_ptr<Customer> &c2)
+         { return c1->getCustomerName() < c2->getCustomerName(); });
+}
+
+void Bank::SortOrderBalance()
+{
+    sort(CustomersOrderedBalance.begin(), CustomersOrderedBalance.end(), [](const shared_ptr<Customer> &c1, const shared_ptr<Customer> &c2)
+         { return c1->getBalance() < c2->getBalance(); });
+}
+
 void Bank::SetupTestData() {
     /*
     Customer *c1 = new Customer("Customer One", "22/12/1997", 20, 123412345, "XAXA");
@@ -49,11 +106,11 @@ void Bank::CustomerRegistration()
 
     // TAKE INPUT
     ui.InputCustomerRegistration(CustomerName, DOB, Age, Mobile, PassportNumber);
-    std::shared_ptr<Customer> newCustomer = std::make_shared<Customer>(CustomerName, DOB, Age, Mobile, PassportNumber);
+    shared_ptr<Customer> newCustomer = make_shared<Customer>(CustomerName, DOB, Age, Mobile, PassportNumber);
     
     
     cout << "Customers Size Before: " << Customers.size();
-    Customers.emplace(newCustomer->getCustomerID(), newCustomer);
+    InsertCustomerBankAccount(newCustomer);
     cout << "Customers Size After: " << Customers.size();
     
     
@@ -122,4 +179,16 @@ void Bank::CustomerBalanceEnquiry()
         throw runtime_error("No Account Matching Customer ID! Please create a Customer Record first. ");
     }
     //ui.OutputRequestBalance(double balance, double interest);
+}
+
+void Bank::RequestDisplaySorted() {
+
+    bool SortByAlphaBet = ui.RequestSortTypeAlphabet();
+    if (SortByAlphaBet) {
+        SortAlphabetic();
+        ui.OutputSorted(CustomersOrderedAlphabet);
+    } else {
+        SortOrderBalance();
+        ui.OutputSorted(CustomersOrderedBalance);
+    }
 }

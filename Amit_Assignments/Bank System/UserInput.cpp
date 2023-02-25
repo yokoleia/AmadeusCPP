@@ -9,6 +9,8 @@
 #include <set>
 #include "Time.h"
 #include <memory>
+#include "Customer.h"
+#include <vector>
 
 void UserInput::InputCustomerRegistration(string &CustomerName, string& DOB, int &Age, int &Mobile, string &PassportNumber)
 {
@@ -50,6 +52,11 @@ int UserInput::InputRequestCustomerNumber() {
     return CustomerID;
 }
 
+bool UserInput::RequestSortTypeAlphabet()
+{
+    cout << "How would you like to sort the data: ";
+    return RequestNum<bool>();
+}
 
 void UserInput::InputOpenBankAccount(shared_ptr<BankAccount>& BankAccount, long& BSB, string& BankName) {
     bool isSavings; // 
@@ -110,6 +117,14 @@ void UserInput::OutputRequestBalance(double balance, double interest) {
     cout << "Your Account Balance: " << balance << endl;
     cout << "Interest Earned: " << interest << endl;
 }
+
+void UserInput::OutputSorted(vector<shared_ptr<Customer>> &CustomersOrderedAlphabet) {
+    cout << "Here is the sorted data: " << endl;
+    for (const auto x : CustomersOrderedAlphabet) {
+        x->PrintNameAndBalance();
+    }
+}
+
 /* ----------------------------------------------------------
                         Helper Functions
 -------------------------------------------------------------*/

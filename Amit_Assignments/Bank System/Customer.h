@@ -29,8 +29,10 @@ class Customer
         void Print() const;
 
         // Accessors
+        void PrintNameAndBalance() const;
         int getCustomerID() const;
         string getCustomerName() const;
+        double getBalance() const;
         int getAge() const;
         int getMobile() const;
         string getPassportNumber() const;

@@ -13,11 +13,11 @@ private:
     static long BSBCode;
     static string BankName;
 
-    vector<Customer*>CustomersOrderedAlphabet;
-    vector<Customer*>CustomersOrderedBalance;
-    
+    vector<shared_ptr<Customer>>CustomersOrderedAlphabet;
+    vector<shared_ptr<Customer>>CustomersOrderedBalance;
+
     //map<long, Customer *> Customers;
-    map<long, shared_ptr<Customer>> Customers;
+    map<int, shared_ptr<Customer>> Customers;
 
 public:
     UserInput ui;
@@ -25,10 +25,12 @@ public:
     ~Bank() {
         Customers.clear();
     }
-    void InsertCustomerBankAccount(Customer);
-
+    void InsertCustomerBankAccount(shared_ptr<Customer> Customer_ptr);
+    void DeleteCustomer(int CustomerID);
+    int BinarySearch(vector<shared_ptr<Customer>>, int CustomerID);
     void SetupTestData();
 
+    void RequestDisplaySorted();
     //Accessors
     long getBranchBSB() { return BSBCode; }
     bool CustomerHasAccount(int &customerID);

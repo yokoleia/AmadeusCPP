@@ -45,8 +45,9 @@ int main() {
 
                 // sort customer data
                 case 4:
+                    myBank.RequestDisplaySorted();
                     break;
-                
+
                 // Persist customer data
                 case 5:
                     break;
