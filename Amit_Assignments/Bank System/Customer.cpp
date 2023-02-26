@@ -36,9 +36,14 @@ ostream &operator<<(ostream &outFS, const Customer &customer)
     return outFS;
 }
 
+
+
 void Customer::PrintNameAndBalance() const {
+    this->Account->CalcInterest();
     cout << "CustomerID: " << this->getCustomerID() << "\t\t";
+    cout << "Account Opened: " << this->getBankAccount()->getOpeningDate() << "\t\t";
     cout << "Name: " << CustomerName << "\t\t";
+    cout << "Interest Earned: $" << fixed << setprecision(2) << this->Account->getInterestEarned() << "\t\t";
     cout << "Balance: $" << fixed << setprecision(2) << this->getBalance() << endl;
 }
 

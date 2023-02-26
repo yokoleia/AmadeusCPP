@@ -72,7 +72,7 @@ void UserInput::InputOpenBankAccount(shared_ptr<BankAccount>& BankAccount, long&
 
     
     if (isSavings) {
-        cout << "Input Opening Balance: "; // << endl;2
+        cout << "Input Opening Balance: $"; // << endl;2
         Balance = RequestNum<double>();
         if (Balance < 0)
         {
@@ -113,8 +113,8 @@ shared_ptr<BankAccount> UserInput::InputOpenFixedAccount(string &BankName, long 
 }
 
 void UserInput::OutputRequestBalance(double balance, double interest) {
-    cout << "Your Account Balance: " << balance << endl;
-    cout << "Interest Earned: " << interest << endl;
+    cout << "Your Account Balance: $" << balance << endl;
+    cout << "Interest Earned: $" << interest << endl;
 }
 
 void UserInput::OutputSorted(vector<shared_ptr<Customer>> &CustomersOrdered) {

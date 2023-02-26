@@ -38,7 +38,7 @@ ostream &operator<<(ostream &os, const SavingsAccount &a)
        << "," << a.BSB
        << "," << a.AccountNumber
        << "," << a.BankName
-       << "," << fixed << setprecision(2) << a.getBalance()
+       << "," << fixed << setprecision(2) << a.Balance
        << "," << a.getOpeningDate()
        << "," << a.SalaryAccount
        << "," << a.MinimumBalance 
@@ -51,6 +51,7 @@ void SavingsAccount::CalcInterest()
     interestEarned = Balance * years * 0.04;
 }
 
+
 void SavingsAccount::PrintDetails() const {
     Display::clearConsole();
     cout << "Savings Account Details: " << endl;
@@ -62,9 +63,6 @@ void SavingsAccount::PrintDetails() const {
     if (SalaryAccount) {
         cout << "\tSalary Account" << endl;
     }
-    cout << "Minimum Balance: " << MinimumBalance << endl;
-    cout << "Current Balance: " << Balance << endl; 
-
-
-
+    cout << "Minimum Balance: $" << fixed << setprecision(2) << MinimumBalance << endl;
+    cout << "Current Balance: $" << fixed << setprecision(2) << Balance << endl;
 }

@@ -176,10 +176,8 @@ void Bank::CustomerBalanceEnquiry()
 {
     int CustomerID = ui.InputRequestCustomerNumber();
     if (CustomerHasBankAccount(CustomerID)) {
-        double balance = Customers.at(CustomerID)->getBankAccount()->getBalance();
-        double interest = Customers.at(CustomerID)->getBankAccount()->getInterestEarned();
+        Customers.at(CustomerID)->Print();
 
-        ui.OutputRequestBalance(balance, interest);
     }
     else if (CustomerHasAccount(CustomerID)) {
         throw runtime_error("Customer Record created but No Bank Account Created Yet!\nPlease create a user account first. ");

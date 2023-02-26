@@ -35,7 +35,7 @@ ostream &operator<<(ostream &os, const FixedAccount &a)
        << "," << a.BSB
        << "," << a.AccountNumber
        << "," << a.BankName
-       << "," << fixed << setprecision(2) << a.getBalance()
+       << "," << fixed << setprecision(2) << a.Balance
        << "," << a.OpeningDate
        << "," << a.DepositAmount
        << "," << a.Tenure

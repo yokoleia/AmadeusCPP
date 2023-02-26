@@ -114,18 +114,16 @@ void FileDAO::retrieveAllCustomers(map<int, shared_ptr<Customer>> &Customers, ve
                 bool isSavings = stoi(temp);
 
                 getline(iss, temp, ',');
-                cout << "checking BSB: " << temp;
+                
                 long BSB = stol(temp);
 
                 getline(iss, temp, ',');
-                cout << "checking Account Number: " << temp;
                 long AccountNumber = stol(temp);
 
                 string BankName;
                 getline(iss, BankName, ',');
 
                 getline(iss, temp, ',');
-                cout << "checking Balance: " << temp;
                 double Balance = stod(temp);
 
                 string OpeningDate;
@@ -133,22 +131,18 @@ void FileDAO::retrieveAllCustomers(map<int, shared_ptr<Customer>> &Customers, ve
 
                 if (isSavings) {
                     getline(iss, temp, ',');
-                    cout << "checking SalaryAccount: " << temp;
                     bool SalaryAccount = stoi(temp);
 
                     getline(iss, temp, ',');
-                    cout << "checking MinimumBalance: " << temp;
                     double MinimumBalance = stod(temp);
 
                     newCustomer->setBankAccount(make_shared<SavingsAccount>(BSB, BankName, Balance, OpeningDate, SalaryAccount));
                 } else {
 
                     getline(iss, temp, ',');
-                    cout << "checking DepositAmount: " << temp;
                     double DepositAmount = stod(temp);
 
                     getline(iss, temp, ',');
-                    cout << "checking Tenure: " << temp;
                     int Tenure = stoi(temp);
 
                     //getline(iss, temp, ',');
@@ -159,10 +153,13 @@ void FileDAO::retrieveAllCustomers(map<int, shared_ptr<Customer>> &Customers, ve
             }
             getline(infs, line);
         }
-    }
+
+    }   
     else
     {
         throw runtime_error("Data Import Failed. Backup File does not exist. ");
     }
     infs.close();
+    Display::clearConsole();
+    cout << "Operation Complete" << endl;
 }
