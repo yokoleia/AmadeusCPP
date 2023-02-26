@@ -64,7 +64,7 @@ void UserInput::InputOpenBankAccount(shared_ptr<BankAccount>& BankAccount, long&
 
     
 
-    cout << "Enter Date (DD/MM/YYYY): "; // << endl;
+    cout << "When was this account created: Date(DD/MM/YYYY): "; // << endl;
     OpeningDate = RequestDate();
 
     cout << "Account Type(0=Fixed,1=Savings): ";
@@ -228,6 +228,7 @@ bool UserInput::StringIsNum(string line)
     }
     return true;
 }
+
 string UserInput::RequestDate() {
     string temp;
     cin >> temp;

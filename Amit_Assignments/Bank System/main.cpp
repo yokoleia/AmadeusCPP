@@ -82,6 +82,10 @@ int main() {
             cout << "Error: " << e.what() << endl;
             cin.clear();
         }
+        catch (...) {
+            Display::clearConsole();
+            cout << "An Error Occured: " << endl;
+        }
 
         string temphold;
         cout << "Press Enter key to continue..." << endl;

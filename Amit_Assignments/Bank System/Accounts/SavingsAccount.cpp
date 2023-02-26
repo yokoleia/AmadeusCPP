@@ -38,7 +38,7 @@ ostream &operator<<(ostream &os, const SavingsAccount &a)
        << "," << a.BSB
        << "," << a.AccountNumber
        << "," << a.BankName
-       << "," << a.getBalance()
+       << "," << fixed << setprecision(2) << a.getBalance()
        << "," << a.getOpeningDate()
        << "," << a.SalaryAccount
        << "," << a.MinimumBalance 

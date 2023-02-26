@@ -51,7 +51,7 @@ void FileDAO::saveAllCustomers(const vector<shared_ptr<Customer>> &CustomersOrde
                              
         outFS << endl;
     }
-    
+    cout << "Write Complete. " << endl;
 
     
     outFS.close();
@@ -98,54 +98,57 @@ void FileDAO::retrieveAllCustomers(map<int, shared_ptr<Customer>> &Customers, ve
                 shared_ptr<Customer> newCustomer = make_shared<Customer>(CustomerName, DOB, Age, Mobile, PassportNumber);
                 CustomersOrdered.push_back(newCustomer);
                 Customers.emplace(newCustomer->getCustomerID(), newCustomer);
-
-                newCustomer->PrintNameAndBalance();
-
-
-
-                
-                
-                
-                
-                
+                bool customerHasBankAccount;
                 
                 getline(iss, temp, ',');
+                for (auto ch : temp)
+                {
+                    cout << "checking temp: " << ch;
+                    if (!isdigit(ch))
+                    {
+
+                        continue;
+                    }
+                }
+                cout << endl;
                 bool isSavings = stoi(temp);
 
                 getline(iss, temp, ',');
+                cout << "checking BSB: " << temp;
                 long BSB = stol(temp);
 
                 getline(iss, temp, ',');
+                cout << "checking Account Number: " << temp;
                 long AccountNumber = stol(temp);
 
                 string BankName;
                 getline(iss, BankName, ',');
 
                 getline(iss, temp, ',');
+                cout << "checking Balance: " << temp;
                 double Balance = stod(temp);
 
                 string OpeningDate;
                 getline(iss, OpeningDate, ',');
 
-
-
-
-
                 if (isSavings) {
                     getline(iss, temp, ',');
+                    cout << "checking SalaryAccount: " << temp;
                     bool SalaryAccount = stoi(temp);
-                    
+
                     getline(iss, temp, ',');
+                    cout << "checking MinimumBalance: " << temp;
                     double MinimumBalance = stod(temp);
 
                     newCustomer->setBankAccount(make_shared<SavingsAccount>(BSB, BankName, Balance, OpeningDate, SalaryAccount));
                 } else {
 
-                    
                     getline(iss, temp, ',');
+                    cout << "checking DepositAmount: " << temp;
                     double DepositAmount = stod(temp);
-                    
+
                     getline(iss, temp, ',');
+                    cout << "checking Tenure: " << temp;
                     int Tenure = stoi(temp);
 
                     //getline(iss, temp, ',');
