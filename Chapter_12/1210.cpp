@@ -34,6 +34,7 @@ int main()
 
         cout << max << endl;
     }
+    
     catch (ios_base::failure &e)
     {
         cout << counter << " input(s) read:" << endl;
